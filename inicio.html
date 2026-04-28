@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Juego del Impostor - Encuentra al impostor entre los jugadores">
+    <meta name="theme-color" content="#000000">
+    <title>Impostor - Inicio</title>
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/screens.css">
+    <link rel="stylesheet" href="css/inicio.css">
+</head>
+<body class="inicio-page">
+    <div id="app" class="app-container">
+        <main id="main-content" class="main-content">
+            <section id="screen-home" class="screen active">
+                <div class="home-container-new">
+                    <!-- Header con iconos -->
+                    <div class="home-header">
+                        <button id="home-help-btn" class="home-icon-btn" aria-label="Ayuda">
+                            <img src="icons/help.svg" alt="">
+                        </button>
+                        <button id="home-config-btn" class="home-icon-btn" aria-label="Configuración">
+                            <img src="icons/config.svg" alt="">
+                        </button>
+                    </div>
+
+                    <!-- Logo y título central -->
+                    <div class="home-logo-section">
+                        <div class="home-logo-circle">
+                            <img src="icons/logo.svg" alt="Logo Impostor" class="home-logo-svg">
+                        </div>
+                        <h1 class="home-title" data-i18n="homeTitle">EL JUEGO DEL IMPOSTOR</h1>
+                        <p class="home-subtitle" data-i18n="homeSubtitle">¿Quién es el impostor?</p>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="home-buttons">
+                        <button id="btn-new-game" class="btn-home btn-home-primary">
+                            <span data-i18n="newGame">Nueva Partida</span>
+                        </button>
+
+                        <button id="btn-online-game" class="btn-home btn-home-secondary" hidden>
+                            <span data-i18n="onlineGame">Partida En Línea</span>
+                        </button>
+
+                        <div class="home-support-card">
+                            <div class="support-content">
+                                <div class="support-text">
+                                    <p class="support-question" data-i18n="enjoyingGame">¿Te está gustando el juego?</p>
+                                    <a href="https://revolut.me/gabah1998" target="_blank" class="support-link">
+                                        <span data-i18n="inviteCoffee">Invítame a un café</span>
+                                    </a>
+                                </div>
+                                <img src="icons/dinero.svg" alt="Donar" class="support-icon">
+                            </div>
+                            <p class="support-description" data-i18n="supportDescription">El dinero se destinará exclusivamente a mantener los servidores y hacer que el juego siga siendo gratis</p>
+                        </div>
+                    </div>
+
+                    <!-- Footer con contacto -->
+                    <div class="home-footer">
+                        <img src="icons/help.svg" alt="Contacto" class="footer-icon">
+                        <p class="footer-text">
+                            <span data-i18n="suggestion">¿Alguna sugerencia?</span>
+                            <a href="mailto:gabahdesign98@gmail.com" class="footer-link" data-i18n="talkToUs">¡Hablemos!</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { config } from './js/config.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar configuración para aplicar modo oscuro e idioma
+            config.cargar();
+
+            // Botón nueva partida
+            document.getElementById('btn-new-game').addEventListener('click', () => {
+                window.location.href = 'index.html#players';
+            });
+
+            // Botones header
+            document.getElementById('home-help-btn').addEventListener('click', () => {
+                window.location.href = 'index.html#help';
+            });
+
+            document.getElementById('home-config-btn').addEventListener('click', () => {
+                window.location.href = 'index.html#config';
+            });
+
+            // Internacionalización básica (si se requiere inmediata)
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const translation = config.t(key);
+                if (translation && translation !== key) {
+                    // Si el elemento tiene un span interno (como los botones), buscamos el span
+                    const span = el.querySelector('span');
+                    if (span) span.textContent = translation;
+                    else el.textContent = translation;
+                }
+            });
+            
+            // Placeholder i18n
+            const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+            placeholders.forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const translation = config.t(key);
+                if (translation && translation !== key) {
+                    el.placeholder = translation;
+                }
+            });
+        });
+
+        // Prevenir zoom en iOS
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

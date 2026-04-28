@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Revelación</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .cards-stack {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+        }
+
+        .role-card-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .role-card-background.civilian {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .role-content {
+            text-align: center;
+            color: white;
+        }
+
+        .role-type-large {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .role-theme-small {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .role-word-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .swipe-card-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 40px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+        }
+
+        .swipe-card-top.grabbing {
+            cursor: grabbing;
+            transition: none;
+        }
+
+        .swipe-card-top.returning {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-player-name h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0;
+        }
+
+        .card-instruction {
+            text-align: center;
+            color: white;
+        }
+
+        .card-instruction p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .swipe-arrow {
+            width: 50px;
+            height: 50px;
+            animation: bounceArrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cards-stack">
+        <!-- Tarjeta de Fondo (Rol Revelado) -->
+        <div id="role-card-bg" class="role-card-background civilian">
+            <div class="role-content">
+                <div class="role-type-large">CIVIL</div>
+                <div class="role-theme-small">Animales</div>
+                <div class="role-word-display">PERRO</div>
+            </div>
+        </div>
+
+        <!-- Tarjeta Superior Deslizable -->
+        <div id="swipe-card" class="swipe-card-top">
+            <div class="card-logo">🎭</div>
+            <div class="card-player-name">
+                <h1>Juan</h1>
+            </div>
+            <div class="card-instruction">
+                <p>Destapa tu rol</p>
+                <div class="swipe-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const swipeCard = document.getElementById('swipe-card');
+
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+        const MAX_SWIPE = -300;
+
+        const handleStart = (e) => {
+            isDragging = true;
+            startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            currentY = startY;
+            swipeCard.classList.add('grabbing');
+            swipeCard.classList.remove('returning');
+        };
+
+        const handleMove = (e) => {
+            if (!isDragging) return;
+
+            e.preventDefault();
+            currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+            let deltaY = currentY - startY;
+
+            if (deltaY < 0) {
+                deltaY = Math.max(deltaY, MAX_SWIPE);
+                swipeCard.style.transform = `translateY(${deltaY}px)`;
+            }
+        };
+
+        const handleEnd = () => {
+            if (!isDragging) return;
+
+            isDragging = false;
+            swipeCard.classList.remove('grabbing');
+            swipeCard.classList.add('returning');
+
+            swipeCard.style.transform = 'translateY(0)';
+        };
+
+        // Touch events
+        swipeCard.addEventListener('touchstart', handleStart, { passive: false });
+        swipeCard.addEventListener('touchmove', handleMove, { passive: false });
+        swipeCard.addEventListener('touchend', handleEnd);
+
+        // Mouse events
+        swipeCard.addEventListener('mousedown', handleStart);
+        document.addEventListener('mousemove', handleMove);
+        document.addEventListener('mouseup', handleEnd);
+    </script>
+</body>
+</html>

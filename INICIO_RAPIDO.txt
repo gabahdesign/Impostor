@@ -1,0 +1,59 @@
+╔═══════════════════════════════════════════════════════════════╗
+║           🕵️  JUEGO DEL IMPOSTOR - INICIO RÁPIDO  🕵️          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📋 INSTRUCCIONES PARA INICIAR:
+
+1️⃣  OPCIÓN SIMPLE (Doble clic):
+   - Abre "index.html" en tu navegador favorito
+   - ¡Y listo! Ya puedes jugar
+
+2️⃣  OPCIÓN RECOMENDADA (Con servidor local):
+
+   Opción A - Python (si lo tienes instalado):
+   - Abre una terminal en esta carpeta
+   - Ejecuta: python -m http.server 8000
+   - Abre: http://localhost:8000
+
+   Opción B - Node.js:
+   - Ejecuta: npx http-server
+   - Sigue la URL que aparezca
+
+   Opción C - PHP:
+   - Ejecuta: php -S localhost:8000
+   - Abre: http://localhost:8000
+
+═══════════════════════════════════════════════════════════════
+
+🎮 CÓMO JUGAR:
+
+1. Añade jugadores (mínimo 3)
+2. Selecciona temas en Configuración
+3. Presiona "Comenzar Juego"
+4. Pasa el dispositivo entre jugadores para ver roles
+5. Discutan y voten al impostor
+
+═══════════════════════════════════════════════════════════════
+
+📱 INSTALAR COMO APP EN EL MÓVIL:
+
+Android (Chrome):
+- Menú (⋮) → "Añadir a pantalla de inicio"
+
+iOS (Safari):
+- Botón Compartir → "Añadir a pantalla de inicio"
+
+═══════════════════════════════════════════════════════════════
+
+⚠️  NOTA SOBRE ICONOS:
+
+Los archivos icon-192.png e icon-512.png no están incluidos.
+Puedes:
+- Crearlos tú mismo (iconos cuadrados de 192x192 y 512x512 px)
+- O la app funcionará igual sin ellos (solo sin icono en la instalación PWA)
+
+═══════════════════════════════════════════════════════════════
+
+📚 Para más información, consulta README.md
+
+¡Disfruta el juego! 🎉
